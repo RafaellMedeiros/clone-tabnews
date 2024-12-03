@@ -1,5 +1,5 @@
 function Home() {
-    return <h1>Home Page 123</h1>;
+    return <h1>Vanguard Arena</h1>;
 }
 
 export default Home;
