@@ -3,17 +3,14 @@ import database from "infra/database";
 import { join } from "path";
 
 export default async function migrations(req, res) {
-  console.log("Environment variables", {
-    NODE_ENV: process.env.NODE_ENV,
-    POSTGRES_HOST: process.env.POSTGRES_HOST,
-    POSTGRES_PORT: process.env.POSTGRES_PORT,
-    POSTGRES_USER: process.env.POSTGRES_USER,
-    POSTGRES_DB: process.env.POSTGRES_DB,
-    POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD,
-    POSTGRES_CA: process.env.POSTGRES_CA,
-  });
-  let dbClient;
+  const allowedMethods = ["GET", "POST"];
+  if (!allowedMethods.includes(req.method)) {
+    return res.status(405).json({
+      message: `Method ${req.method} Not Allowed`,
+    });
+  }
 
+  let dbClient;
   try {
     dbClient = await database.getNewClient();
 
@@ -46,10 +43,9 @@ export default async function migrations(req, res) {
 
       return res.status(201).json(migratedMigrations);
     }
-
-    return res.status(405).end();
   } catch (error) {
     console.error(error);
+    throw error;
   } finally {
     await dbClient.end();
   }
