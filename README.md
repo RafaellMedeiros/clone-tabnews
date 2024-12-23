@@ -1,3 +1,3 @@
 # clone-tabnews
 
-Repositorio para armazenar o codigo da curso Curso.dev
+Repositório para armazenar o código do curso Curso.deCurso.dev
